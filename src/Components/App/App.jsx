@@ -1,10 +1,11 @@
 import React from 'react'
 import style from './App.module.css'
+import Container from '../Container/Container'
 
 const App = (props) => {
     return (
         <div className={ style.App }>
-            This is a React Redux boilerplate by Ivan Solobear
+            <Container></Container>
         </div>
     )
 }

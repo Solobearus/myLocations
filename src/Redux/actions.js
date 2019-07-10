@@ -3,12 +3,23 @@
  * action types
  */
 
-export const EXAMPLE_ACTION = 'EXAMPLE_ACTION'
+export const ADD = 'ADD'
+export const UPDATE = 'UPDATE'
+export const DELETE = 'DELETE'
 
 /*
  * action creators
  */
 
-export function exampleAction(payload) {
-    return { type: EXAMPLE_ACTION, payload }
+export function add(payload) {
+    return { type: ADD, payload }
 };
+
+export function update(payload) {
+    return { type: UPDATE, payload }
+};
+
+export function remove(payload) {
+    return { type: DELETE, payload }
+};
+

@@ -1,23 +1,62 @@
 
 import {
-    EXAMPLE_ACTION,
+    ADD,
+    UPDATE,
+    DELETE,
+
 } from './actions'
 
 const initialState = {
-    change : null
+    Category: {
+        id: 0,
+        name: ""
+    },
+    Categories: [],
+    Location: {
+        id: 0,
+        name: "",
+        Address: "",
+        Coordinates: "",
+        Category: "",
+    },
+    Locations: [],
 };
 
-function firstReducer(state = initialState, action) {
+function mainReducer(state = initialState, action) {
 
+    console.log("ADD");
     switch (action.type) {
-        case EXAMPLE_ACTION:
-            const newChange = state.change;
-            console.log(`Reducer: some change was made to state.change`);
-            return {...state, change : newChange};
+        case ADD:
+            
+            if (action.payload.dataStruct === state.Location) {
+                const newLocations = [...state.Locations];
+                // console.log(`Reducer: some change was made to state.change`);
+                newLocations.push(action.payload.inputs);
+                return { ...state, Locations: newLocations };
+            } else {
+                const newCategories = [...state.Categories];
+                // console.log(`Reducer: some change was made to state.change`);
+                newCategories.push(action.payload.inputs);
+                return { ...state, Categories: newCategories };
+            }
+            break;
+        case UPDATE:
+            if (action.payload.location) {
+                const newLocations = [...state.Locations];
+                // console.log(`Reducer: some change was made to state.change`);
+                newLocations.push(action.payload.location);
+                return { ...state, Locations: newLocations };
+            } else {
+                const newCategories = [...state.Categories];
+                // console.log(`Reducer: some change was made to state.change`);
+                newCategories.push(action.payload.category);
+                return { ...state, Categories: newCategories };
+            }
+
 
         default:
             return state
     }
 }
 
-export default firstReducer
+export default mainReducer

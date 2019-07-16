@@ -1,11 +1,16 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import style from './App.module.css'
 import Main from '../Main/Main.jsx'
 import CrudView from '../CrudView/CrudView.jsx'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
+import {init} from '../../Redux/actions'
 
 const App = (props) => {
+
+    useEffect(() => {
+        props.init();
+    }, [])
 
     const routes = [
         {
@@ -19,11 +24,19 @@ const App = (props) => {
         },
         {
             path: "/categories",
-            component: () => <CrudView dataStruct={props.Category} data={props.Categories}></CrudView>
+            component: () => <CrudView
+                dataStruct={props.Category}
+                data={props.Categories}
+                dataLastID={props.CategoryLastID}>
+            </CrudView>
         },
         {
             path: "/locations",
-            component: () => <CrudView dataStruct={props.Location} data={props.Locations}></CrudView>
+            component: () => <CrudView
+                dataStruct={props.Location}
+                data={props.Locations}
+                dataLastID={props.LocationLastID}>
+            </CrudView>
         }
     ];
 
@@ -58,13 +71,15 @@ const App = (props) => {
 const mapStateToProps = state => ({
     Categories: state.mainReducer.Categories,
     Locations: state.mainReducer.Locations,
-    Category: state.mainReducer.Category,   
-    Location: state.mainReducer.Location
+    Category: state.mainReducer.Category,
+    Location: state.mainReducer.Location,
+    CategoryLastID: state.mainReducer.CategoryLastID,
+    LocationLastID: state.mainReducer.LocationLastID,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // func: (payload) => dispatch(action(payload)),
+        init: (payload) => dispatch(init(payload)),
     }
 };
 export default connect(

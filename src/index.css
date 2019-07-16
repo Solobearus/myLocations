@@ -1,14 +1,35 @@
 body {
+  height: 100vh;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+#google-places-autocomplete-input {
+  padding: 2px;
+  width: 165px;
+  border: 0.1px solid rgb(168, 168, 168);
+  /* border-color: initial; */
+}
+#google-places-suggestions-container {
+  /* flex: 1 1 100%; */
+  width: 165px;
+  top: 1.2em;
+  cursor: pointer;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+#google-places-suggestions-container div:hover{
+  width: 100%;
+background: rgb(210, 210, 210)
 }

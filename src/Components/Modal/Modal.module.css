@@ -1,3 +1,1 @@
-.Modal {
-    
-}
+.Modal{display:flex;position:absolute;left:0;top:0;width:100vw;height:100vh;justify-content:center;align-items:center}.Modal .modal{display:flex;flex-wrap:wrap;background-color:white;border-radius:5px;z-index:1;width:250px;height:250px;padding:20px;justify-items:space-between}.Modal .modal div,.Modal .modal label{flex:1 1 100%;display:flex;justify-content:space-between;align-items:center}.Modal .modal div button,.Modal .modal label button{flex-basis:100px}.Modal .modal .modalItem div input{flex:1 1 100%;display:flex;justify-content:space-between;align-items:center}.Modal .modal .modalItem div input button{flex-basis:100px}.Modal .modal #google-places-suggestions-container{background:blue}.Modal .layout{width:100vw;height:100vh;position:fixed;left:0;top:0;background-color:rgba(100,100,100,0.5)}.Modal h3{margin:0;color:red}

@@ -1,1 +1,20 @@
-.App ul{list-style-type:none;margin:0;padding:0;overflow:hidden;background-color:#333}.App li{float:left}.App li a{display:block;color:white;text-align:center;padding:14px 16px;text-decoration:none}.App li a:hover:not(.active){background-color:#111}.App .active{background-color:#4CAF50}
+.App ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333; }
+.App li {
+  float: left; }
+  .App li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none; }
+    .App li a:hover:not(.active) {
+      background-color: #111; }
+.App .active {
+  background-color: #4CAF50; }
+
+/*# sourceMappingURL=App.module.css.map */

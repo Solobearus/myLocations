@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import style from './CrudView.module.css'
 import { connect } from 'react-redux'
 import Modal from '../Modal/Modal'
@@ -12,30 +12,46 @@ const CrudView = (props) => {
     return (
         <div className={style.CrudView}>
             <table>
-                <tr>
-                    {Object.keys(props.dataStruct).map((key) =>
-                        <th>{key}</th>
-                    )}
-                </tr>
-                {props.data.map((item) =>
+                <thead>
                     <tr>
-                        {Object.values(item).map((value) =>
-                            <td>{value}</td>
+                        {Object.keys(props.dataStruct).map((key) =>
+                            <th key={key}>{key}</th>
                         )}
-                        <button onClick={() => {
-                            setModal(true);
-                            setActionType("update");
-                            setData(item);
-                        }}>Update</button>
-                        <button onClick={() => {
-                            setModal(true);
-                            setActionType("remove");
-                            setData(item);
-                        }}>Delete</button>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
-                )}
+                </thead>
+                <tbody>
+                    {props.data.map((item) =>
+                        <tr key={item.id}>
+                            {Object.entries(item).map((value) =>
+                                <td key={value[0]}>
+                                    {
+                                        value[0] === "Address"?
+                                        value[1].description :
+                                        value[1]
+                                    }
+                                </td>
+                            )}
+                            <td>
+                                <button onClick={() => {
+                                    setModal(true);
+                                    setActionType("update");
+                                    setData(item);
+                                }}>Update</button>
+                            </td>
+                            <td>
+                                <button onClick={() => {
+                                    setModal(true);
+                                    setActionType("remove");
+                                    setData(item);
+                                }}>Delete</button>
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
             </table>
-            <button onClick={() => {
+            <button className={style.Add} onClick={() => {
                 setModal(true);
                 setActionType("add");
                 setData(props.dataStruct);
@@ -45,7 +61,8 @@ const CrudView = (props) => {
                     setModal={setModal}
                     data={data}
                     actionType={actionType}
-                    dataStruct={props.dataStruct}>
+                    dataStruct={props.dataStruct}
+                    dataLastID={props.dataLastID}>
                 </Modal> : null
             }
         </div>
@@ -56,14 +73,7 @@ const mapStateToProps = state => ({
     // stateVar: state.moviesReducer.items
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        // func: (payload) => dispatch(action(payload)),
-    }
-};
-
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
 )(CrudView);

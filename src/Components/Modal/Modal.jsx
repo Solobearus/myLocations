@@ -2,36 +2,50 @@ import React, { useState, useEffect } from 'react';
 import style from './Modal.module.css'
 import { connect } from 'react-redux'
 import { add, update, remove } from '../../Redux/actions'
-
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 const Modal = (props) => {
 
     let inputs = [];
 
+    const [valid, setValid] = useState(true);
+
     const handleClick = () => {
         let payload = []
+        let dataToHandle = {};
+        let nonStateValid = true;
+
         switch (props.actionType) {
             case "add":
                 payload = {
                     dataStruct: props.dataStruct,
-                    inputs: inputs.map((input, index) => {
-                        return { key: input.key, value: input.ref.value }
-                    })
+                    dataToHandle: inputs.reduce((obj, currentEntry) => {
+                        if (!currentEntry.ref.value || currentEntry.ref.value === "none")
+                            nonStateValid = false;
+                        obj[currentEntry.key] = currentEntry.ref.value;
+                        return obj;
+                    }, dataToHandle)
                 }
-                console.log("test");
-                
-                props.add(payload);
+
+                setValid(nonStateValid);
+                if (nonStateValid)
+                    props.add(payload);
                 break;
             case "update":
                 payload = {
                     dataStruct: props.dataStruct,
-                    inputs: inputs.map((input, index) => {
-                        return { key: input.key, value: input.ref.value }
-                    })
+                    dataToHandle: inputs.reduce((obj, currentEntry) => {
+                        if (!currentEntry.ref.value)
+                            nonStateValid = false;
+                        obj[currentEntry.key] = currentEntry.ref.value;
+                        return obj;
+                    }, dataToHandle)
                 }
-                props.update(payload);
+                setValid(nonStateValid);
+                if (nonStateValid)
+                    props.update(payload);
                 break;
             case "remove":
-                // payload = {dataStruct: props.dataStruct, id: }ד
+                payload = { dataStruct: props.dataStruct, id: props.data.id };
                 props.remove(payload);
                 break;
 
@@ -40,40 +54,88 @@ const Modal = (props) => {
         }
     }
 
+    const fields = Object.entries(props.data).map((entry, index) => {
+        return < div className={style.modalItem} key={entry[0]} >
+            <label>{entry[0]}</label>
+
+            {
+                entry[0] === "Category" ?
+
+                    <select
+                        ref={(ref) => inputs[index] = { ref: ref, key: entry[0] }}
+                        disabled={
+                            (props.actionType === "remove") ? true : false
+                        }
+                        defaultValue={
+                            (props.actionType === "add") ?
+                                (entry[0] === "id" ? props.dataLastID : "") : entry[1]
+                        }>
+                        {props.Categories.length > 0 && props.Categories !== undefined ?
+                            (props.Categories.map((category) => {
+                                return <option value={category.name}
+                                    key={category.id}>
+                                    {category.name}
+                                </option>
+                            })) : <option value="none">No Categories Found</option>}
+                    </select>
+                    :
+                    entry[0] === "Address" && props.actionType !== "remove" ?
+                        < GooglePlacesAutocomplete
+                            className={style.GooglePlacesAutocomplete}
+                            ref={(ref) => {inputs[index] = { ref: ref, key: entry[0] };}}
+                            initialValue={entry[1]}
+                            placeholder={entry[1].description}
+                            onSelect={onSelectAdress => {
+                                inputs[index].ref.value = onSelectAdress.description;
+                            }}
+                        />
+                        :
+                        <input
+                            type="text"
+                            required
+                            ref={(ref) => inputs[index] = { ref: ref, key: entry[0] }}
+                            disabled={
+                                (entry[0] === "id" ||
+                                    props.actionType === "remove") ? true : false
+                            }
+                            defaultValue={
+                                (props.actionType === "add") ?
+                                    (entry[0] === "id" ? props.dataLastID : "") : entry[1]
+                            }
+                        ></input>
+
+            }
+        </div >
+    })
+
+
     return (
         <div className={style.Modal}>
-            <div class={style.layout}></div>
-            <div>
-                {Object.entries(props.data).map((entry, index) =>
-                    <div className="">
-                        {entry[0]}
-                        {
-                            (props.actionType === "add") ?
-                                <input
-                                    type="text"
-                                    ref={(ref) => inputs[index] = { ref: ref, key: entry[0] }}
-                                ></input> :
-                                <input
-                                    type="text"
-                                    value={entry[1]}
-                                    ref={(ref) => inputs[index] = { ref: ref, key: entry[0] }}
-                                    disabled={entry[0] === "id" ? true : false}
-                                ></input>
-                        }
-                    </div>
-                )}
+            <div className={style.layout} onClick={() => { props.setModal(false) }}></div>
+            <div className={style.modal}>
+                {fields}
                 {
-                    (props.actionType === "delete") ? <h3>Are you sure you want to delete {props.data.name}?</h3> : null
+                    (props.actionType === "remove") ?
+                        <h3>Are you sure you want to delete {props.data.name}?</h3>
+                        : null
                 }
-                <button onClick={() => { handleClick() }}>{props.actionType}</button>
-                <button>cancel</button>
+                {
+                    (valid === false) ?
+                        <h3>All fields are mendatory</h3>
+                        : <div></div>
+                }
+                <div className="">
+                    <button onClick={() => { handleClick() }}>{props.actionType}</button>
+                    <button onClick={() => { props.setModal(false) }}>cancel</button>
+                </div>
+
             </div>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
-    // stateVar: state.moviesReducer.items
+    Categories: state.mainReducer.Categories,
 });
 
 const mapDispatchToProps = (dispatch) => {

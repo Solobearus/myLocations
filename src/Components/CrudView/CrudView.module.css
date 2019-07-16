@@ -1,3 +1,1 @@
-.CrudView {
-    
-}
+.CrudView{margin-top:50px;display:flex;align-items:center;flex-wrap:wrap;flex-direction:column}.CrudView table{border-collapse:collapse}.CrudView table th,.CrudView table td{border:3px solid #ddd}.CrudView table th{text-align:left;background-color:#f2f2f2}.CrudView table td{width:100px}.CrudView table tr:nth-child(even){background-color:#f2f2f2}.CrudView table tr:hover{background-color:#ddd}.CrudView table button{width:100%}.CrudView .Add{width:80px;margin-top:50px}

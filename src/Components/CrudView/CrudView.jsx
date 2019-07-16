@@ -29,7 +29,6 @@ const CrudView = (props) => {
                             {Object.entries(item).map((value) =>
                                 <td key={value[0]}>
                                     {
-                                        // value[1]
                                         value[0] === "category" ?
                                             props.categories.filter((category) => category.id === value[1])[0].name :
                                             value[1]

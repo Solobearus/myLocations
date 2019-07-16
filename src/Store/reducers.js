@@ -71,16 +71,21 @@ function mainReducer(state = initialState, action) {
                 newData = [...state.locations];
                 index = newData.map(item => item.id).indexOf(action.payload.id);
                 newData.splice(index, 1);
-                toLocalStorage = JSON.stringify({ ...state, locations: newData})
+                toLocalStorage = JSON.stringify({ ...state, locations: newData});
                 myStorage.setItem("state", toLocalStorage);
                 return { ...state, locations: newData };
             } else {
                 newData = [...state.categories];
                 index = newData.map(item => item.id).indexOf(action.payload.id);
                 newData.splice(index, 1);
-                toLocalStorage = JSON.stringify({ ...state, categories: newData})
+                toLocalStorage = JSON.stringify({ ...state, categories: newData});
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, categories: newData };
+
+                let cleanUncategorizedLocations = [...state.locations];
+                cleanUncategorizedLocations = cleanUncategorizedLocations.filter((location) => 
+                    location.category !== action.payload.id
+                )
+                return { ...state, categories: newData , locations : cleanUncategorizedLocations};
             }
         default:
             return state

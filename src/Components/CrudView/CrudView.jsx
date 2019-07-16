@@ -22,14 +22,17 @@ const CrudView = (props) => {
                     </tr>
                 </thead>
                 <tbody>
+                {/* {   console.log(props.data)
+                    } */}
                     {props.data.map((item) =>
                         <tr key={item.id}>
                             {Object.entries(item).map((value) =>
                                 <td key={value[0]}>
                                     {
-                                        value[0] === "Address"?
-                                        value[1].description :
-                                        value[1]
+                                        // value[1]
+                                        value[0] === "category" ?
+                                            props.categories.filter((category) => category.id === value[1])[0].name :
+                                            value[1]
                                     }
                                 </td>
                             )}
@@ -70,7 +73,7 @@ const CrudView = (props) => {
 }
 
 const mapStateToProps = state => ({
-    // stateVar: state.moviesReducer.items
+    categories: state.mainReducer.categories,
 });
 
 

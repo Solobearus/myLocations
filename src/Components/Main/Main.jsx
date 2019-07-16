@@ -4,63 +4,63 @@ import { connect } from 'react-redux'
 
 const Main = (props) => {
 
-    const [locationsToRender, setLocationsToRender] = useState([]);
+    const [locationsToRender, setlocationsToRender] = useState([]);
     const [placeId, setPlaceId] = useState(null);
     let categorySelected = null;
-    let locationSelected = null;
+    let locationselected = null;
     let apikey = "AIzaSyAw7dBz3fBk-f9SwRFaFqvPln6e20Tnu9Q";
 
     useEffect(() => {
-        onCategorySelected();
-    }, [props.Categories])
+        oncategorySelected();
+    }, [props.categories])
 
-    const onCategorySelected = () => {
-        const filtered = props.Locations.filter(
-            location => location.Category === categorySelected.value
+    const oncategorySelected = () => {
+        const filtered = props.locations.filter(
+            location => location.category === categorySelected.value
         )
 
-        setLocationsToRender(filtered);
+        setlocationsToRender(filtered);
 
         if (filtered.length > 0) {
-            let address = filtered[0].Address.split(' ').join('+');
+            let address = filtered[0].address.split(' ').join('+');
             setPlaceId(address);
-        }else{
+        } else {
             setPlaceId(null);
         }
     }
 
-    const onLocationSelected = () => {
-        console.log(JSON.parse(locationSelected.value));
+    const onlocationselected = () => {
+        console.log(JSON.parse(locationselected.value));
 
-        setPlaceId(JSON.parse(locationSelected.value).Address.split(' ').join('+'));
+        setPlaceId(JSON.parse(locationselected.value).address.split(' ').join('+'));
     }
 
     return (
         <div className={style.Main}>
 
-            <h3>Categories</h3>
+            <h3>categories</h3>
             <select
                 ref={(ref) => categorySelected = ref}
-                onChange={() => { onCategorySelected(); }}
-                defaultValue={props.Categories.length > 0 ? props.Categories[0].name : "none"}
+                onChange={() => { oncategorySelected(); }}
+                defaultValue={props.categories.length > 0 ? props.categories[0].name : "none"}
             >
-                {props.Categories.length > 0 && props.Categories !== undefined ?
-                    (props.Categories.map((category) => {
-                        return <option value={category.name} key={category.id}>
+                {props.categories.length > 0 && props.categories !== undefined ?
+                    (props.categories.map((category) => {
+                        return <option value={category.id} key={category.id}>
                             {category.name}
                         </option>
-                    })) : <option value="none">No Categories Found</option>}
+                    })) : <option value="none">No categories Found</option>}
             </select>
-            <h3>Locations</h3>
+            <h3>locations</h3>
             <select
-                ref={(ref) => locationSelected = ref}
-                onChange={() => { onLocationSelected(); }}>
+                ref={(ref) => locationselected = ref}
+                onChange={() => { onlocationselected(); }}>
                 {locationsToRender.length > 0 ?
                     (locationsToRender.map((location) => {
                         return <option value={JSON.stringify(location)} key={location.id}>
                             {location.name}
                         </option>
-                    })) : <option value="none">No Locations Found</option>}
+                    })) : <option value="none">No locations Found</option>}
             </select>
             {console.log(placeId)
             }
@@ -73,8 +73,8 @@ const Main = (props) => {
 }
 
 const mapStateToProps = state => ({
-    Categories: state.mainReducer.Categories,
-    Locations: state.mainReducer.Locations,
+    categories: state.mainReducer.categories,
+    locations: state.mainReducer.locations,
 });
 
 export default connect(

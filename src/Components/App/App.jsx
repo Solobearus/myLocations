@@ -4,7 +4,7 @@ import Main from '../Main/Main.jsx'
 import CrudView from '../CrudView/CrudView.jsx'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
-import {init} from '../../Redux/actions'
+import {init} from '../../Store/actions'
 
 const App = (props) => {
 
@@ -25,17 +25,18 @@ const App = (props) => {
         {
             path: "/categories",
             component: () => <CrudView
-                dataStruct={props.Category}
-                data={props.Categories}
-                dataLastID={props.CategoryLastID}>
+                dataStruct={props.category}
+                data={props.categories}
+                dataLastID={props.categoryLastID}>
+                    
             </CrudView>
         },
         {
             path: "/locations",
             component: () => <CrudView
-                dataStruct={props.Location}
-                data={props.Locations}
-                dataLastID={props.LocationLastID}>
+                dataStruct={props.location}
+                data={props.locations}
+                dataLastID={props.locationLastID}>
             </CrudView>
         }
     ];
@@ -49,13 +50,15 @@ const App = (props) => {
                             <Link to="/">Home</Link>
                         </li>
                         <li>
-                            <Link to="/categories">Categories</Link>
+                            <Link to="/categories">categories</Link>
                         </li>
                         <li>
-                            <Link to="/locations">Locations</Link>
+                            <Link to="/locations">locations</Link>
                         </li>
                     </ul>
                 </header>
+                {/* {   console.log(props.categories)
+                    } */}
                 {routes.map((route, index) => (
                     <Route
                         key={index}
@@ -69,12 +72,12 @@ const App = (props) => {
     )
 }
 const mapStateToProps = state => ({
-    Categories: state.mainReducer.Categories,
-    Locations: state.mainReducer.Locations,
-    Category: state.mainReducer.Category,
-    Location: state.mainReducer.Location,
-    CategoryLastID: state.mainReducer.CategoryLastID,
-    LocationLastID: state.mainReducer.LocationLastID,
+    categories: state.mainReducer.categories,
+    locations: state.mainReducer.locations,
+    category: state.mainReducer.category,
+    location: state.mainReducer.location,
+    categoryLastID: state.mainReducer.categoryLastID,
+    locationLastID: state.mainReducer.locationLastID,
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -7,21 +7,21 @@ import {
 } from './actions'
 
 const initialState = {
-    CategoryLastID: 0,
-    Category: {
+    categoryLastID: 0,
+    category: {
         id: 0,
         name: ""
     },
-    Categories: [],
-    LocationLastID: 0,
-    Location: {
+    categories: [],
+    locationLastID: 0,
+    location: {
         id: 0,
         name: "",
-        Address: "",
-        Coordinates: "",
-        Category: "",
+        address: "",
+        coordinates: "",
+        category: "",
     },
-    Locations: [],
+    locations: [],
 };
 
 const myStorage = window.localStorage;
@@ -37,50 +37,50 @@ function mainReducer(state = initialState, action) {
             
             return { ...state, ...stateFromStorage };
         case ADD:
-            if (action.payload.dataStruct === state.Location) {
-                newData = [...state.Locations];
+            if (action.payload.dataStruct === state.location) {
+                newData = [...state.locations];
                 newData.push(action.payload.dataToHandle);
-                toLocalStorage = JSON.stringify({ ...state, Locations: newData, LocationLastID: state.LocationLastID + 1 })
+                toLocalStorage = JSON.stringify({ ...state, locations: newData, locationLastID: state.locationLastID + 1 })
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, Locations: newData, LocationLastID: ++state.LocationLastID };
+                return { ...state, locations: newData, locationLastID: ++state.locationLastID };
             } else {
-                newData = [...state.Categories];
+                newData = [...state.categories];
                 newData.push(action.payload.dataToHandle);
-                toLocalStorage = JSON.stringify({ ...state, Categories: newData, CategoryLastID: state.CategoryLastID + 1 })
+                toLocalStorage = JSON.stringify({ ...state, categories: newData, categoryLastID: state.categoryLastID + 1 })
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, Categories: newData, CategoryLastID: ++state.CategoryLastID };
+                return { ...state, categories: newData, categoryLastID: ++state.categoryLastID };
             }
         case UPDATE:
-            if (action.payload.dataStruct === state.Location) {
-                newData = [...state.Locations];
+            if (action.payload.dataStruct === state.location) {
+                newData = [...state.locations];
                 index = newData.map(item => item.id).indexOf(action.payload.dataToHandle.id);
                 newData[index] = action.payload.dataToHandle;
-                toLocalStorage = JSON.stringify({ ...state, Locations: newData})
+                toLocalStorage = JSON.stringify({ ...state, locations: newData})
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, Locations: newData };
+                return { ...state, locations: newData };
             } else {
-                newData = [...state.Categories];
+                newData = [...state.categories];
                 index = newData.map(item => item.id).indexOf(action.payload.dataToHandle.id);
                 newData[index] = action.payload.dataToHandle;
-                toLocalStorage = JSON.stringify({ ...state, Categories: newData})
+                toLocalStorage = JSON.stringify({ ...state, categories: newData})
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, Categories: newData };
+                return { ...state, categories: newData };
             }
         case REMOVE:
-            if (action.payload.dataStruct === state.Location) {
-                newData = [...state.Locations];
+            if (action.payload.dataStruct === state.location) {
+                newData = [...state.locations];
                 index = newData.map(item => item.id).indexOf(action.payload.id);
                 newData.splice(index, 1);
-                toLocalStorage = JSON.stringify({ ...state, Locations: newData})
+                toLocalStorage = JSON.stringify({ ...state, locations: newData})
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, Locations: newData };
+                return { ...state, locations: newData };
             } else {
-                newData = [...state.Categories];
+                newData = [...state.categories];
                 index = newData.map(item => item.id).indexOf(action.payload.id);
                 newData.splice(index, 1);
-                toLocalStorage = JSON.stringify({ ...state, Categories: newData})
+                toLocalStorage = JSON.stringify({ ...state, categories: newData})
                 myStorage.setItem("state", toLocalStorage);
-                return { ...state, Categories: newData };
+                return { ...state, categories: newData };
             }
         default:
             return state
